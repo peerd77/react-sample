@@ -8,14 +8,12 @@ class App extends Component {
       {name:"Manu", age:"29"},
       {name:"Steph", age:"26"},
     ],
+    showPersons: false
   }
-  switchNameHandler = (newName) => {
+  togglePersonsHandler = () => {
+    const showPersons = this.state.showPersons;
     this.setState({
-      persons : [
-        {name:newName, age:"29"},
-        {name:"Manu", age:"30"},
-        {name:"Steph", age:"27"},
-      ],
+      showPersons: !showPersons
     });
   }
   changedHandler = (event) => {
@@ -36,17 +34,22 @@ class App extends Component {
     };
     return (
       <div className="App">
-      <h1>Hi, I'm a react App</h1>
-      <button style={btnStyle} onClick={this.switchNameHandler.bind(this, 'Maximilian')}>Switch Name</button>
-      <Person 
-      name={this.state.persons[0].name} age={this.state.persons[0].age}/>
-      <Person 
-      name={this.state.persons[1].name} 
-      age={this.state.persons[1].age}
-      changed={this.changedHandler}>
-      <span>My Hobbies: Racing</span>
-      </Person>
-      <Person name={this.state.persons[2].name} age={this.state.persons[2].age}/>
+        <h1>Hi, I'm a react App</h1>
+        <button style={btnStyle} onClick={this.togglePersonsHandler}>Toggle Persons</button>
+        {
+          this.state.showPersons ? 
+          <div>
+          <Person 
+            name={this.state.persons[0].name} age={this.state.persons[0].age}/>
+          <Person 
+            name={this.state.persons[1].name} 
+            age={this.state.persons[1].age}
+            changed={this.changedHandler}>
+            <span>My Hobbies: Racing</span>
+          </Person>
+          <Person name={this.state.persons[2].name} age={this.state.persons[2].age}/>
+        </div> : null
+        }
       </div>
     );
   }
