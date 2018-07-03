@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import appCss from './App.css';
 import Person from './Person/Person';
+import ErrorBoundry from './ErrorBoundry/ErrorBoundry';
 class App extends Component {
   state = {
     persons : [
@@ -23,7 +24,7 @@ class App extends Component {
     persons.splice(index, 1);
     this.setState({persons: persons});
   }
-
+  
   nameChangedHandler = (event, id) => {
     const persons = [...this.state.persons];
     const personIdx = persons.findIndex(v => v.id === id);
@@ -32,48 +33,49 @@ class App extends Component {
     persons[personIdx] = person;
     this.setState({persons: persons});
   }
-
+  
   render() {
     
-
+    
     let persons = null;
     let btnClass = '';
     if (this.state.showPersons){
       persons = (
-      <div>
-      {this.state.persons.map((person, index) => {
+        <div>
+        {this.state.persons.map((person, index) => {
           return (
+            <ErrorBoundry key={person.id}>
             <Person 
             name={person.name} 
             age={person.age} 
             click={ () => this.deletePersonHandler(index)}
-            key={person.id}
             changed={(event) => this.nameChangedHandler(event, person.id)}/>
+            </ErrorBoundry>
           )
         }
       )}
-    </div>
+      </div>
     )
     btnClass = appCss.Red;
-
-  
+    
+    
   }
   const classes = [];
-    
+  
   if (this.state.persons.length <= 2){
     classes.push(appCss.red);
   }
   if (this.state.persons.length <= 1){
     classes.push(appCss.bold);
   }
-    return (
-      <div className={appCss.App}>
-        <h1 className={classes.join(' ')}>Hi, I'm a react App</h1>
-        <button className={btnClass} onClick={this.togglePersonsHandler}>Toggle Persons</button>
-        {persons}
-      </div>
-    );
-  }
+  return (
+    <div className={appCss.App}>
+    <h1 className={classes.join(' ')}>Hi, I'm a react App</h1>
+    <button className={btnClass} onClick={this.togglePersonsHandler}>Toggle Persons</button>
+    {persons}
+    </div>
+  );
+}
 }
 
 export default App;
