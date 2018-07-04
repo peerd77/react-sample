@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import './App.css';
-import appCss from './App.css';
+import classes from './App.css';
 import Persons from '../components/Persons/Persons';
+import Cockpit from '../components/Cockpit/Cockpit';
 class App extends Component {
   state = {
     persons : [
@@ -37,36 +38,25 @@ class App extends Component {
     
     
     let persons = null;
-    let btnClass = '';
     if (this.state.showPersons){
       persons = (
-        <div>
-            <Persons
-            persons = {this.state.persons}
-            clicked = {this.deletePersonHandler}
-            changed = {this.nameChangedHandler} /> 
-        </div>
-    )
-    btnClass = appCss.Red;
+        <Persons
+        persons = {this.state.persons}
+        clicked = {this.deletePersonHandler}
+        changed = {this.nameChangedHandler} /> 
+      )
+    }
     
-    
+    return (
+      <div className={classes.App}>
+      <Cockpit 
+      showPersons={this.state.showPersons}
+      persons = {this.state.persons}
+      clicked={this.togglePersonsHandler} />
+      {persons}
+      </div>
+    );
   }
-  const classes = [];
-  
-  if (this.state.persons.length <= 2){
-    classes.push(appCss.red);
-  }
-  if (this.state.persons.length <= 1){
-    classes.push(appCss.bold);
-  }
-  return (
-    <div className={appCss.App}>
-    <h1 className={classes.join(' ')}>Hi, I'm a react App</h1>
-    <button className={btnClass} onClick={this.togglePersonsHandler}>Toggle Persons</button>
-    {persons}
-    </div>
-  );
-}
 }
 
 export default App;
